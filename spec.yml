@@ -81,27 +81,36 @@ paths: admin
         description: Inventory item to add
 components:
   schemas:
-    InventoryItem:
+    userservice:
       type: object
       required:
-        - id
-        - name
-        - manufacturer
-        - releaseDate
+        - User_Id
+        - Nick_Name
+        - User_Name
+        - Mail
+        - Contact 
+        - PWD
       properties:
-        id:
-          type: string
+        User_Id:
+          type: integer
           format: uuid
-          example: d290f1ee-6c54-4b01-90e6-d701748f0851
-        name:
+          example: 1          
+        Nick_Name:
           type: string
-          example: Widget Adapter
-        releaseDate:
+          example: "jofer1923"
+        User_Name:
+          type: string          
+          example: "Fernando Bedoya"
+        Mail:
           type: string
-          format: date-time
-          example: "2016-08-29T09:12:33.001Z"
-        manufacturer:
-          $ref: "#/components/schemas/Manufacturer"
+          format: email
+          example: "Jofer1923@gmail.com"
+        Contact:
+          type: string          
+          example: "+01 22222222"
+        PWD:
+          type: string          
+          example: "Coronavirus2020"        
     Manufacturer:
       required:
         - name
