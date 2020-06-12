@@ -4,20 +4,20 @@ servers:
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/jofer1923/FERNANDO_BEDOYA_DELILAH_RESTO/1.0.0
 info:
-  description: This is a simple API
+  description: Acamica final project of a restful API for a restaurant
   version: "1.0.0"
   title: DELILAH RESTO
   contact:
-    email: you@your-company.com
+    email: jofer1923@gmail.com
   license:
     name: Apache 2.0
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 tags:
-  - name: admins
-    description: Secured Admin-only calls
-  - name: developers
-    description: Operations available to regular developers
-paths:
+  - name: admin
+    description: endpoint admin's crud
+  - name: users
+    description: endpoint users' crud
+paths: admin
   /inventory:
     get:
       tags:
