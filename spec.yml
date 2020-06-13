@@ -129,13 +129,13 @@ components:
           example: "sancocho trifasico del orienteant"
         Short_Dish_Name:
           type: string
-          example: "platano asados"
+          example: "platanos asados"
         Picture_Dish:
           type: string
           format: url
           example: "del-rest.com/Picture_Dish/platanos-asados"
         Price_Dish:
           type: integer          
-          example: "9.99"
+          example: 9.99
         
       
