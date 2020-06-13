@@ -111,18 +111,31 @@ components:
         PWD:
           type: string          
           example: "Coronavirus2020"        
-    Manufacturer:
+    dishmenu:
+      type: object
       required:
-        - name
+        - Dish_Id
+        - Long_Dish_Name
+        - Short_Dish_Name
+        - Picture_Dish
+        - Price_Dish
       properties:
-        name:
+        Dish_Id:
+          type: integer
+          format: uuid
+          example: 1          
+        Long_Dish_Name:
+          type: string          
+          example: "sancocho trifasico del orienteant"
+        Short_Dish_Name:
           type: string
-          example: ACME Corporation
-        homePage:
+          example: "platano asados"
+        Picture_Dish:
           type: string
           format: url
-          example: "https://www.acme-corp.com"
-        phone:
-          type: string
-          example: 408-867-5309
-      type: object
+          example: "del-rest.com/Picture_Dish/platanos-asados"
+        Price_Dish:
+          type: integer          
+          example: "9.99"
+        
+      
