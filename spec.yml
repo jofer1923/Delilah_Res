@@ -137,5 +137,20 @@ components:
         Price_Dish:
           type: integer          
           example: 9.99
-        
-      
+
+     userlocation:
+      type: object
+      required:
+        - Id_User_Location
+        - Location
+      properties:
+        Id_User_Location:
+          type: integer
+          format: uuid
+          example: 1
+        Location:
+          type: string
+          example: "Avenida sprinfield chiminangos nume 07 diagonal a la clinica de rosario"
+
+
+    
