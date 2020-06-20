@@ -17,7 +17,7 @@ tags:
     description: endpoint admin's crud
   - name: users
     description: endpoint users' crud
-paths: admin
+paths:
   /inventory:
     get:
       tags:
@@ -88,29 +88,29 @@ components:
         - Nick_Name
         - User_Name
         - Mail
-        - Contact 
+        - Contact
         - PWD
       properties:
         User_Id:
           type: integer
           format: uuid
-          example: 1          
+          example: 1
         Nick_Name:
           type: string
           example: "jofer1923"
         User_Name:
-          type: string          
+          type: string
           example: "Fernando Bedoya"
         Mail:
           type: string
           format: email
           example: "Jofer1923@gmail.com"
         Contact:
-          type: string          
+          type: string
           example: "+01 22222222"
         PWD:
-          type: string          
-          example: "Coronavirus2020"        
+          type: string
+          example: "Coronavirus2020"
     dishmenu:
       type: object
       required:
@@ -123,9 +123,9 @@ components:
         Dish_Id:
           type: integer
           format: uuid
-          example: 1          
+          example: 1
         Long_Dish_Name:
-          type: string          
+          type: string
           example: "sancocho trifasico del orienteant"
         Short_Dish_Name:
           type: string
@@ -135,7 +135,7 @@ components:
           format: url
           example: "del-rest.com/Picture_Dish/platanos-asados"
         Price_Dish:
-          type: integer          
+          type: integer
           example: 9.99
 
     userlocation:
@@ -151,7 +151,7 @@ components:
         Location:
           type: string
           example: "Avenida sprinfield chiminangos nume 07 diagonal a la clinica de rosario"
-      
+
     orderstatus:
       type: object
       required:
@@ -208,15 +208,3 @@ components:
         Card_Pay:
           type: boolean
           example: false
-          
-        
-        
-        
-
-        
-
-          
-
-
-
-    
