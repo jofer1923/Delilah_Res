@@ -22,6 +22,58 @@ tags:
   - name: users
     description: Operations about user
 paths:
+  /register:
+    post:
+      tags:
+        - users
+      summary: Create a new user
+      description: This can only be done by the logged in user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/userservice"
+      responses:
+        "201":
+          description: Successfully registered user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/userservice"
+
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Wrong request
+                    example: "Wrong request"
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Wrong request
+                    example: "Wrong request"
+        "409":
+          description: User is already registered in the databases
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: User already exist
+                    example: "User already exist"
+                  usuario:
+                    $ref: "#/components/schemas/userservice/properties/Nick_Name"
 
 components:
   schemas:
