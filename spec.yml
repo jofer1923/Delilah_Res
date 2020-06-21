@@ -255,6 +255,141 @@ paths:
                   message:
                     type: string
                     example: "There is not address registered"
+  /user/information:
+    get:
+      tags:
+        - users
+      summary: Check user's information
+      parameters:
+        - in: header
+          name: Token by user
+          description: Send the verification token by user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  User_Id:
+                    $ref: "#/components/schemas/userservice/properties/User_Id"
+                  Nick_Name:
+                    $ref: "#/components/schemas/userservice/properties/Nick_Name"
+                  PWD:
+                    $ref: "#/components/schemas/userservice/properties/PWD"
+                  User_Name:
+                    $ref: "#/components/schemas/userservice/properties/User_Name"
+                  Contact:
+                    $ref: "#/components/schemas/userservice/properties/Contact"
+                  Mail:
+                    $ref: "#/components/schemas/userservice/properties/Mail"
+                  Location:
+                    $ref: "#/components/schemas/userlocation/properties/Location"
+        "400":
+          description: Wrong access
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Incorrect credentials, please try again!"
+        "401":
+          description: user not authenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "The information entered does not exist, please sign up!"
+    put:
+      tags:
+        - users
+      summary: Update user's information
+      parameters:
+        - in: header
+          name: Token by user
+          description: Send the verification token by user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Costumer's information to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/userservice"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Information updated successfuly"
+        "400":
+          description: Wrong access
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Incorrect credentials, please try again!"
+        "401":
+          description: user not authenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "The information entered does not exist, sign up!"
+    delete:
+      tags:
+        - users
+      summary: Delete user's information
+      parameters:
+        - in: header
+          name: Token by user
+          description: Send the verification token by user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Information deleted successfuly"
+        "400":
+          description: Wrong access
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Incorrect credentials, please try again!"
 
 components:
   schemas:
