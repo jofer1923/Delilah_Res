@@ -1,8 +1,12 @@
 openapi: 3.0.0
 # Added by API Auto Mocking Plugin
 servers:
+  # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/jofer1923/FERNANDO_BEDOYA_DELILAH_RESTO/1.0.0
+    url: https://virtserver.swaggerhub.com/jofer1923/FERNANDOBEDOYA_DELILAHREST/1.0.0
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/jofer1923/pruebas/1.0.0
+
 info:
   description: Acamica final project of a restful API for a restaurant
   version: "1.0.0"
@@ -14,71 +18,11 @@ info:
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 tags:
   - name: admin
-    description: endpoint admin's crud
+    description: Operations about admin
   - name: users
-    description: endpoint users' crud
+    description: Operations about user
 paths:
-  /inventory:
-    get:
-      tags:
-        - developers
-      summary: searches inventory
-      operationId: searchInventory
-      description: |
-        By passing in the appropriate options, you can search for
-        available inventory in the system
-      parameters:
-        - in: query
-          name: searchString
-          description: pass an optional search string for looking up inventory
-          required: false
-          schema:
-            type: string
-        - in: query
-          name: skip
-          description: number of records to skip for pagination
-          schema:
-            type: integer
-            format: int32
-            minimum: 0
-        - in: query
-          name: limit
-          description: maximum number of records to return
-          schema:
-            type: integer
-            format: int32
-            minimum: 0
-            maximum: 50
-      responses:
-        "200":
-          description: search results matching criteria
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/InventoryItem"
-        "400":
-          description: bad input parameter
-    post:
-      tags:
-        - admins
-      summary: adds an inventory item
-      operationId: addInventory
-      description: Adds an item to the system
-      responses:
-        "201":
-          description: item created
-        "400":
-          description: "invalid input, object invalid"
-        "409":
-          description: an existing item already exists
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/InventoryItem"
-        description: Inventory item to add
+
 components:
   schemas:
     userservice:
@@ -129,7 +73,7 @@ components:
           example: "sancocho trifasico del orienteant"
         Short_Dish_Name:
           type: string
-          example: "platanos asados"
+          example: "platano asados"
         Picture_Dish:
           type: string
           format: url
@@ -137,7 +81,6 @@ components:
         Price_Dish:
           type: integer
           example: 9.99
-
     userlocation:
       type: object
       required:
@@ -151,7 +94,6 @@ components:
         Location:
           type: string
           example: "Avenida sprinfield chiminangos nume 07 diagonal a la clinica de rosario"
-
     orderstatus:
       type: object
       required:
@@ -173,7 +115,7 @@ components:
           example: false
         Confirm_Order:
           type: boolean
-          example: false
+          example: true
         Preparation_Order:
           type: boolean
           example: false
@@ -208,3 +150,21 @@ components:
         Card_Pay:
           type: boolean
           example: false
+
+    admin:
+      type: object
+      required:
+        - Id_admin
+        - Admin_user
+        - Admin_key
+      properties:
+        Id_admin:
+          type: integer
+          format: uuid
+          example: 1
+        Admin_user:
+          type: string
+          example: AdminSuc01
+        Admin_key:
+          type: string
+          example: AdminAccess20
