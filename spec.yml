@@ -1,8 +1,12 @@
 openapi: 3.0.0
 # Added by API Auto Mocking Plugin
 servers:
+  # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/jofer1923/FERNANDO_BEDOYA_DELILAH_RESTO/1.0.0
+    url: https://virtserver.swaggerhub.com/jofer1923/FERNANDOBEDOYA_DELILAHREST/1.0.0
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/jofer1923/pruebas/1.0.0
+
 info:
   description: Acamica final project of a restful API for a restaurant
   version: "1.0.0"
@@ -14,71 +18,379 @@ info:
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 tags:
   - name: admin
-    description: endpoint admin's crud
+    description: Operations about admin
   - name: users
-    description: endpoint users' crud
+    description: Operations about user
 paths:
-  /inventory:
-    get:
-      tags:
-        - developers
-      summary: searches inventory
-      operationId: searchInventory
-      description: |
-        By passing in the appropriate options, you can search for
-        available inventory in the system
-      parameters:
-        - in: query
-          name: searchString
-          description: pass an optional search string for looking up inventory
-          required: false
-          schema:
-            type: string
-        - in: query
-          name: skip
-          description: number of records to skip for pagination
-          schema:
-            type: integer
-            format: int32
-            minimum: 0
-        - in: query
-          name: limit
-          description: maximum number of records to return
-          schema:
-            type: integer
-            format: int32
-            minimum: 0
-            maximum: 50
-      responses:
-        "200":
-          description: search results matching criteria
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/InventoryItem"
-        "400":
-          description: bad input parameter
+  /register:
     post:
       tags:
-        - admins
-      summary: adds an inventory item
-      operationId: addInventory
-      description: Adds an item to the system
-      responses:
-        "201":
-          description: item created
-        "400":
-          description: "invalid input, object invalid"
-        "409":
-          description: an existing item already exists
+        - users
+      summary: Create a new user
+      description: This can only be done by the logged in user
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InventoryItem"
-        description: Inventory item to add
+              $ref: "#/components/schemas/userservice"
+      responses:
+        "201":
+          description: Successfully registered user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/userservice"
+
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Wrong request
+                    example: "Wrong request"
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Wrong request
+                    example: "Wrong request"
+        "409":
+          description: User is already registered in the databases
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: User already exist
+                    example: "User already exist"
+                  usuario:
+                    $ref: "#/components/schemas/userservice/properties/Nick_Name"
+  /user/login:
+    post:
+      tags:
+        - users
+      summary: Logs user
+      requestBody:
+        description: Start section with username and password
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  $ref: "#/components/schemas/userservice/properties/Nick_Name"
+                password:
+                  $ref: "#/components/schemas/userservice/properties/PWD"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "log successful"
+                  token:
+                    type: string
+                    example: "eyJhbGceOyJSAMPLEiIsImN0eSISAMPLEt7VTFIllwIM0cKNCjN2WCCTqlwEEmk-t3gx1BpqUFoeBSAMPLEvhj8nl-RBGcyoljY"
+        "400":
+          description: Wrong access
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Incorrect credentials, please try again"
+  /dishes:
+    get:
+      tags:
+        - users
+      summary: Get list of available dishes
+      parameters:
+        - in: header
+          name: Token by user
+          description: Token will work after user's login
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Token search results matching criteria by user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "correct verification"
+                  platos:
+                    $ref: "#/components/schemas/dishmenu"
+        "204":
+          description: The dish list is empty
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "There are not disches"
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "There are not disches"
+        "400":
+          description: Wrong access
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Incorrect credentials, please try again!"
+  /order:
+    post:
+      tags:
+        - users
+      summary: Place order
+      description: Process to make the order by user
+      parameters:
+        - in: header
+          name: Token by user
+          description: send the verification token by user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: fill in all fields
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/orderstatus"
+      responses:
+        "200":
+          description: User has been authenticated and all the information was sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "authentication successful"
+                  order:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        User_id:
+                          $ref: "#/components/schemas/userservice/properties/User_Id"
+                        Customer:
+                          $ref: "#/components/schemas/userservice/properties/User_Name"
+                        Dish_Id:
+                          $ref: "#/components/schemas/dishmenu/properties/Dish_Id"
+                        Dish:
+                          $ref: "#/components/schemas/dishmenu/properties/Long_Dish_Name"
+                        Paypss_Id:
+                          $ref: "#/components/schemas/paypss/properties/Paypss_Id"
+                        Id_Order_Status:
+                          $ref: "#/components/schemas/orderstatus/properties/Id_Order_Status"
+                        OrderStatus:
+                          $ref: "#/components/schemas/orderstatus/properties/Confirm_Order"
+                        Id_User_Location:
+                          $ref: "#/components/schemas/userlocation/properties/Id_User_Location"
+                        Location:
+                          $ref: "#/components/schemas/userlocation/properties/Location"
+        "204":
+          description: There are not dishes avalible
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: The products selected are not available
+                    example: "The products selected are not available, please check other available options"
+        "400":
+          description: Wrong access
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  authenticationmessage:
+                    type: string
+                    example: "Access denied, try again!"
+                  paymessage:
+                    type: string
+                    example: "No pay method has been selected"
+        "411":
+          description: Address is not defined
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "There is not address registered"
+  /user/information:
+    get:
+      tags:
+        - users
+      summary: Check user's information
+      parameters:
+        - in: header
+          name: Token by user
+          description: Send the verification token by user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  User_Id:
+                    $ref: "#/components/schemas/userservice/properties/User_Id"
+                  Nick_Name:
+                    $ref: "#/components/schemas/userservice/properties/Nick_Name"
+                  PWD:
+                    $ref: "#/components/schemas/userservice/properties/PWD"
+                  User_Name:
+                    $ref: "#/components/schemas/userservice/properties/User_Name"
+                  Contact:
+                    $ref: "#/components/schemas/userservice/properties/Contact"
+                  Mail:
+                    $ref: "#/components/schemas/userservice/properties/Mail"
+                  Location:
+                    $ref: "#/components/schemas/userlocation/properties/Location"
+        "400":
+          description: Wrong access
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Incorrect credentials, please try again!"
+        "401":
+          description: user not authenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "The information entered does not exist, please sign up!"
+    put:
+      tags:
+        - users
+      summary: Update user's information
+      parameters:
+        - in: header
+          name: Token by user
+          description: Send the verification token by user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Costumer's information to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/userservice"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Information updated successfuly"
+        "400":
+          description: Wrong access
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Incorrect credentials, please try again!"
+        "401":
+          description: user not authenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "The information entered does not exist, sign up!"
+    delete:
+      tags:
+        - users
+      summary: Delete user's information
+      parameters:
+        - in: header
+          name: Token by user
+          description: Send the verification token by user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Information deleted successfuly"
+        "400":
+          description: Wrong access
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Incorrect credentials, please try again!"
+
 components:
   schemas:
     userservice:
@@ -129,7 +441,7 @@ components:
           example: "sancocho trifasico del orienteant"
         Short_Dish_Name:
           type: string
-          example: "platanos asados"
+          example: "platano asados"
         Picture_Dish:
           type: string
           format: url
@@ -137,7 +449,6 @@ components:
         Price_Dish:
           type: integer
           example: 9.99
-
     userlocation:
       type: object
       required:
@@ -151,7 +462,6 @@ components:
         Location:
           type: string
           example: "Avenida sprinfield chiminangos nume 07 diagonal a la clinica de rosario"
-
     orderstatus:
       type: object
       required:
@@ -173,7 +483,7 @@ components:
           example: false
         Confirm_Order:
           type: boolean
-          example: false
+          example: true
         Preparation_Order:
           type: boolean
           example: false
@@ -208,3 +518,21 @@ components:
         Card_Pay:
           type: boolean
           example: false
+
+    admin:
+      type: object
+      required:
+        - Id_admin
+        - Admin_user
+        - Admin_key
+      properties:
+        Id_admin:
+          type: integer
+          format: uuid
+          example: 1
+        Admin_user:
+          type: string
+          example: AdminSuc01
+        Admin_key:
+          type: string
+          example: AdminAccess20
