@@ -4,15 +4,20 @@
   "description": "\u0016Acamica's project to make a restful api with nodejs tools",
   "main": "delilahApi.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "nodemon": "nodemon delilahApi.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jofer1923/Delilah_Res.git"
   },
   "keywords": [
-    "Node.js",
-    "javascritp"
+    "nodemon",
+    "SQL",
+    "express",
+    "mysql2",
+    "sequelize",
+    "body-parser"
   ],
   "author": "jose bedoya",
   "license": "ISC",
