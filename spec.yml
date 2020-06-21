@@ -167,6 +167,95 @@ paths:
                   message:
                     type: string
                     example: "Incorrect credentials, please try again!"
+  /order:
+    post:
+      tags:
+        - users
+      summary: Place order
+      description: Process to make the order by user
+      parameters:
+        - in: header
+          name: Token by user
+          description: send the verification token by user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: fill in all fields
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/orderstatus"
+      responses:
+        "200":
+          description: User has been authenticated and all the information was sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "authentication successful"
+                  order:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        User_id:
+                          $ref: "#/components/schemas/userservice/properties/User_Id"
+                        Customer:
+                          $ref: "#/components/schemas/userservice/properties/User_Name"
+                        Dish_Id:
+                          $ref: "#/components/schemas/dishmenu/properties/Dish_Id"
+                        Dish:
+                          $ref: "#/components/schemas/dishmenu/properties/Long_Dish_Name"
+                        Paypss_Id:
+                          $ref: "#/components/schemas/paypss/properties/Paypss_Id"
+                        Id_Order_Status:
+                          $ref: "#/components/schemas/orderstatus/properties/Id_Order_Status"
+                        OrderStatus:
+                          $ref: "#/components/schemas/orderstatus/properties/Confirm_Order"
+                        Id_User_Location:
+                          $ref: "#/components/schemas/userlocation/properties/Id_User_Location"
+                        Location:
+                          $ref: "#/components/schemas/userlocation/properties/Location"
+        "204":
+          description: There are not dishes avalible
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: The products selected are not available
+                    example: "The products selected are not available, please check other available options"
+        "400":
+          description: Wrong access
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  authenticationmessage:
+                    type: string
+                    example: "Access denied, try again!"
+                  paymessage:
+                    type: string
+                    example: "No pay method has been selected"
+        "411":
+          description: Address is not defined
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "There is not address registered"
+
 components:
   schemas:
     userservice:
