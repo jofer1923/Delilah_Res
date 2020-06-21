@@ -115,6 +115,58 @@ paths:
                   message:
                     type: string
                     example: "Incorrect credentials, please try again"
+  /dishes:
+    get:
+      tags:
+        - users
+      summary: Get list of available dishes
+      parameters:
+        - in: header
+          name: Token by user
+          description: Token will work after user's login
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Token search results matching criteria by user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "correct verification"
+                  platos:
+                    $ref: "#/components/schemas/dishmenu"
+        "204":
+          description: The dish list is empty
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "There are not disches"
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "There are not disches"
+        "400":
+          description: Wrong access
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Incorrect credentials, please try again!"
 components:
   schemas:
     userservice:
