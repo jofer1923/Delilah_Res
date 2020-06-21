@@ -74,7 +74,47 @@ paths:
                     example: "User already exist"
                   usuario:
                     $ref: "#/components/schemas/userservice/properties/Nick_Name"
-
+  /user/login:
+    post:
+      tags:
+        - users
+      summary: Logs user
+      requestBody:
+        description: Start section with username and password
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  $ref: "#/components/schemas/userservice/properties/Nick_Name"
+                password:
+                  $ref: "#/components/schemas/userservice/properties/PWD"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "log successful"
+                  token:
+                    type: string
+                    example: "eyJhbGceOyJSAMPLEiIsImN0eSISAMPLEt7VTFIllwIM0cKNCjN2WCCTqlwEEmk-t3gx1BpqUFoeBSAMPLEvhj8nl-RBGcyoljY"
+        "400":
+          description: Wrong access
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Incorrect credentials, please try again"
 components:
   schemas:
     userservice:
