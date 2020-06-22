@@ -31,4 +31,10 @@ router.post("/login", (req, res) => {
   res.json({ tokn });
 });
 
-module.exports = router;
+router.get("/dishes", (req, res) => {
+  sequelize
+    .query("SELECT * FROM dishmenu", { type: sequelize.QueryTypes.SELECT })
+    .then((response) => res.json(response));
+});
+
+module.exports = { router, signsecure };

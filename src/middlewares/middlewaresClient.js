@@ -1,6 +1,8 @@
 const Sequelize = require("sequelize");
 const { SequelizeScopeError } = require("sequelize");
 const sequelize = new Sequelize("mysql://root@localhost:3307/delilahresto");
+const { signsecure } = require("../routes/routesClient");
+const jwt = require("jsonwebtoken");
 
 function badrequest(req, res, next) {
   const { Nick_Name, User_Name, Mail, Contact, Location, Pwd } = req.body;
@@ -82,13 +84,49 @@ function loginverification(req, res, next) {
             } else {
               return res
                 .status(400)
-                .json({ err: "wrong password information provided" });
+                .json({ err: "Incorrect credentials, please try again" });
             }
           });
       } else {
-        return res.status(400).json({ err: "wrong user information provided" });
+        return res
+          .status(400)
+          .json({ err: "Incorrect credentials, please try again" });
       }
     });
 }
 
-module.exports = { badrequest, userexist, loginverification };
+function dishver(req, res, next) {
+  sequelize
+    .query("SELECT * FROM dishmenu", { type: sequelize.QueryTypes.SELECT })
+    .then((response) => {
+      if (response.length) {
+        return next();
+      } else {
+        return res.status(204).json({ err: "There are not disches" });
+      }
+    });
+}
+
+function toknverification(req, res, next) {
+  try {
+    const tokn = req.headers.authorization.split(" ")[1];
+    const toknver = jwt.verify(tokn, signsecure);
+    if (toknver) {
+      req.Nick_Name = toknver;
+      return next();
+    }
+  } catch (err) {
+    return res
+      .status(400)
+      .json({ err: "Incorrect credentials, please try again!" });
+  }
+}
+
+module.exports = {
+  signsecure,
+  badrequest,
+  userexist,
+  loginverification,
+  dishver,
+  toknverification,
+};

@@ -1,11 +1,14 @@
 const express = require("express");
 const server = express();
-const routeruser = require("./src/routes/routesClient");
+
+const { router } = require("./src/routes/routesClient");
 const bodyParser = require("body-parser");
 const {
   badrequest,
   userexist,
   loginverification,
+  dishver,
+  toknverification,
 } = require("./src/middlewares/middlewaresClient");
 
 server.use(bodyParser());
@@ -16,6 +19,8 @@ server.listen(3000, () => {
 
 // server.get("/prueba", userservice);
 
-server.post("/register", badrequest, userexist, routeruser);
+server.post("/register", badrequest, userexist, router);
 
-server.post("/login", loginverification, routeruser);
+server.post("/login", loginverification, router);
+
+server.get("/dishes", toknverification, dishver, router);
