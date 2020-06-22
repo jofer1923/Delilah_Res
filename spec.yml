@@ -255,6 +255,7 @@ paths:
                   message:
                     type: string
                     example: "There is not address registered"
+
   /user/information:
     get:
       tags:
@@ -380,6 +381,122 @@ paths:
                   message:
                     type: string
                     example: "Information deleted successfuly"
+        "400":
+          description: Wrong access
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Incorrect credentials, please try again!"
+
+  /admin/login:
+    post:
+      tags:
+        - admin
+      summary: Administrator login
+      requestBody:
+        description: Start section with username and password
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  $ref: "#/components/schemas/admin/properties/Admin_user"
+                password:
+                  $ref: "#/components/schemas/admin/properties/Admin_key"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Token created successfully
+                    example: "log successful"
+                  token:
+                    type: string
+                    example: "eyJhbGceOyJSAMPLEiIsImN0eSISAMPLEt7VTFIllwIM0cKNCjN2WCCTqlwEEmk-t3gx1BpqUFoeBSAMPLEvhj8nl-RBGcyoljY"
+        "400":
+          description: Invalid information supplied
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Incorrect credentials, please try again"
+  /admin/orders:
+    get:
+      tags:
+        - admin
+      summary: Get orders' list
+      parameters:
+        - in: header
+          name: Token by user
+          description: Token will work after admin's login
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Admin has been authenticated and all the information was sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "authentication successful"
+                  order:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        User_id:
+                          $ref: "#/components/schemas/userservice/properties/User_Id"
+                        Customer:
+                          $ref: "#/components/schemas/userservice/properties/User_Name"
+                        Dish_Id:
+                          $ref: "#/components/schemas/dishmenu/properties/Dish_Id"
+                        Dish:
+                          $ref: "#/components/schemas/dishmenu/properties/Long_Dish_Name"
+                        Paypss_Id:
+                          $ref: "#/components/schemas/paypss/properties/Paypss_Id"
+                        Id_Order_Status:
+                          $ref: "#/components/schemas/orderstatus/properties/Id_Order_Status"
+                        OrderStatus:
+                          $ref: "#/components/schemas/orderstatus/properties/Confirm_Order"
+                        Id_User_Location:
+                          $ref: "#/components/schemas/userlocation/properties/Id_User_Location"
+                        Location:
+                          $ref: "#/components/schemas/userlocation/properties/Location"
+        "204":
+          description: The dish list is empty
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "There are not disches"
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "There are not disches"
         "400":
           description: Wrong access
           content:
