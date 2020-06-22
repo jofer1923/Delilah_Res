@@ -4,6 +4,8 @@ const Sequelize = require("sequelize");
 const { response } = require("express");
 const router = express.Router();
 const sequelize = new Sequelize("mysql://root@localhost:3307/delilahresto");
+const signsecure = "Accestoken2020";
+const jwk = require("jsonwebtoken");
 
 router.use(bodyParser());
 
@@ -21,6 +23,12 @@ router.post("/register", (req, res) => {
     { replacements: [null, Nick_Name, User_Name, Mail, Contact, Location, Pwd] }
   );
   res.status(201).json("user was created");
+});
+
+router.post("/login", (req, res) => {
+  const { Nick_Name } = req.body;
+  const tokn = jwk.sign({ Nick_Name }, signsecure);
+  res.json({ tokn });
 });
 
 module.exports = router;

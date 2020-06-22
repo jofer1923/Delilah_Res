@@ -1,4 +1,5 @@
 const Sequelize = require("sequelize");
+const { SequelizeScopeError } = require("sequelize");
 const sequelize = new Sequelize("mysql://root@localhost:3307/delilahresto");
 
 function badrequest(req, res, next) {
@@ -61,4 +62,33 @@ function userexist(req, res, next) {
     });
 }
 
-module.exports = { badrequest, userexist };
+function loginverification(req, res, next) {
+  const { Nick_Name, Pwd } = req.body;
+  sequelize
+    .query("SELECT Nick_Name FROM userservice WHERE Nick_Name = ? ", {
+      replacements: [Nick_Name],
+      type: sequelize.QueryTypes.SELECT,
+    })
+    .then((response) => {
+      if (response.length) {
+        sequelize
+          .query("SELECT Pwd FROM userservice WHERE Pwd = ? ", {
+            replacements: [Pwd],
+            type: sequelize.QueryTypes.SELECT,
+          })
+          .then((response) => {
+            if (response.length) {
+              return next();
+            } else {
+              return res
+                .status(400)
+                .json({ err: "wrong password information provided" });
+            }
+          });
+      } else {
+        return res.status(400).json({ err: "wrong user information provided" });
+      }
+    });
+}
+
+module.exports = { badrequest, userexist, loginverification };
