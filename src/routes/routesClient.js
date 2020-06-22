@@ -15,12 +15,12 @@ router.use(bodyParser());
 // });
 
 router.post("/register", (req, res) => {
-  const { Nick_Name, User_Name, Mail, Contact, Pwd } = req.body;
+  const { Nick_Name, User_Name, Mail, Contact, Location, Pwd } = req.body;
   sequelize.query(
-    "INSERT INTO userservice (User_Id,Nick_Name,User_Name,Mail,Contact,Pwd) VALUES (?,?,?,?,?,?)",
-    { replacements: [null, Nick_Name, User_Name, Mail, Contact, Pwd] }
+    "INSERT INTO userservice (User_Id,Nick_Name,User_Name,Mail,Contact,Location, Pwd) VALUES (?,?,?,?,?,?,?)",
+    { replacements: [null, Nick_Name, User_Name, Mail, Contact, Location, Pwd] }
   );
-  res.send("user was created");
+  res.status(201).json("user was created");
 });
 
 module.exports = router;

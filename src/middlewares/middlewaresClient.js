@@ -2,12 +2,13 @@ const Sequelize = require("sequelize");
 const sequelize = new Sequelize("mysql://root@localhost:3307/delilahresto");
 
 function badrequest(req, res, next) {
-  const { Nick_Name, User_Name, Mail, Contact, Pwd } = req.body;
+  const { Nick_Name, User_Name, Mail, Contact, Location, Pwd } = req.body;
   if (
     typeof Nick_Name === "string" &&
     typeof User_Name === "string" &&
     typeof Mail === "string" &&
     typeof Contact === "string" &&
+    typeof Location === "string" &&
     typeof Pwd === "string"
   ) {
     if (
@@ -19,6 +20,8 @@ function badrequest(req, res, next) {
       Mail.length <= 70 &&
       Contact.length > 6 &&
       Contact.length <= 12 &&
+      Location.length > 10 &&
+      Location.length <= 50 &&
       Pwd.length > 10 &&
       Pwd.length <= 75
     ) {
