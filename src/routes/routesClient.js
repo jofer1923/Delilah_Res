@@ -17,10 +17,29 @@ router.use(bodyParser());
 // });
 
 router.post("/register", (req, res) => {
-  const { Nick_Name, User_Name, Mail, Contact, Location, Pwd } = req.body;
+  const {
+    admin,
+    Nick_Name,
+    User_Name,
+    Mail,
+    Contact,
+    Location,
+    Pwd,
+  } = req.body;
   sequelize.query(
-    "INSERT INTO userservice (User_Id,Nick_Name,User_Name,Mail,Contact,Location, Pwd) VALUES (?,?,?,?,?,?,?)",
-    { replacements: [null, Nick_Name, User_Name, Mail, Contact, Location, Pwd] }
+    "INSERT INTO userservice (User_Id,admin, Nick_Name,User_Name,Mail,Contact,Location, Pwd) VALUES (?,?,?,?,?,?,?,?)",
+    {
+      replacements: [
+        null,
+        admin,
+        Nick_Name,
+        User_Name,
+        Mail,
+        Contact,
+        Location,
+        Pwd,
+      ],
+    }
   );
   res.status(201).json("user was created");
 });
