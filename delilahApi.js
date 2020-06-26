@@ -9,6 +9,7 @@ const {
   loginverification,
   dishver,
   toknverification,
+  userInfo,
 } = require("./src/middlewares/middlewaresClient");
 
 server.use(bodyParser());
@@ -24,3 +25,5 @@ server.post("/register", badrequest, userexist, router);
 server.post("/login", loginverification, router);
 
 server.get("/dishes", toknverification, dishver, router);
+
+server.get("/user/information", toknverification, userInfo, router);

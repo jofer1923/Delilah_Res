@@ -56,4 +56,16 @@ router.get("/dishes", (req, res) => {
     .then((response) => res.json(response));
 });
 
+router.get("/user/information", (req, res) => {
+  const { User_Id } = req.query;
+  sequelize
+    .query("SELECT * FROM userservice WHERE User_Id= ?", {
+      replacements: [User_Id],
+      type: sequelize.QueryTypes.SELECT,
+    })
+    .then((response) => {
+      res.json(response);
+    });
+});
+
 module.exports = { router, signsecure };

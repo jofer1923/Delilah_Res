@@ -122,6 +122,44 @@ function toknverification(req, res, next) {
   }
 }
 
+function userInfo(req, res, next) {
+  try {
+    const tokn = req.headers.authorization.split(" ")[1];
+    const { User_Id } = req.query;
+    const toknver = jwt.verify(tokn, signsecure);
+    sequelize
+      .query(
+        "SELECT Nick_Name, User_Id FROM userservice WHERE Nick_Name = ? ",
+        {
+          replacements: [toknver.Nick_Name],
+          type: sequelize.QueryTypes.SELECT,
+        }
+      )
+      .then((response) => {
+        console.log(response[0].Nick_Name);
+        console.log(toknver.Nick_Name);
+        console.log(response[0].User_Id);
+        console.log(User_Id);
+        if (
+          response[0].Nick_Name === toknver.Nick_Name &&
+          response[0].User_Id === parseInt(User_Id)
+        ) {
+          console.log("entro al if");
+          return next();
+        } else {
+          console.log("entro en el else");
+          return res.status(401).json({
+            err: "The information entered does not exist, please sign up!",
+          });
+        }
+      });
+  } catch (err) {
+    return res
+      .status(400)
+      .json({ err: "Incorrect credentials, please try again!" });
+  }
+}
+
 module.exports = {
   signsecure,
   badrequest,
@@ -129,4 +167,5 @@ module.exports = {
   loginverification,
   dishver,
   toknverification,
+  userInfo,
 };
