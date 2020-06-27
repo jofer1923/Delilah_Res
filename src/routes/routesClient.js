@@ -68,4 +68,20 @@ router.get("/user/information", (req, res) => {
     });
 });
 
+router.post("/order", (req, res) => {
+  const { Dish_Id, Paypss_Id } = req.body;
+  const { User_Id } = req.query;
+  sequelize.query("SET GLOBAL FOREIGN_KEY_CHECKS=0");
+  sequelize
+    .query(
+      "INSERT INTO uservsorder (User_Id_Def,User_Id,Dish_Id,Paypss_Id,Id_Order_Status, UpdateDate) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)",
+      {
+        replacements: [null, User_Id, Dish_Id, Paypss_Id, 1],
+      }
+    )
+    .then((response) => {
+      res.status(201).json({ message: "authentication successful", response });
+    });
+});
+
 module.exports = { router, signsecure };

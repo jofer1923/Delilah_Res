@@ -27,3 +27,5 @@ server.post("/login", loginverification, router);
 server.get("/dishes", toknverification, dishver, router);
 
 server.get("/user/information", toknverification, userInfo, router);
+
+server.post("/order", toknverification, userInfo, dishver, router);
