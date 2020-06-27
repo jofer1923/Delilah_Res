@@ -29,3 +29,5 @@ server.get("/dishes", toknverification, dishver, router);
 server.get("/user/information", toknverification, userInfo, router);
 
 server.post("/order", toknverification, userInfo, dishver, router);
+
+server.put("/user/information", toknverification, userInfo, router);

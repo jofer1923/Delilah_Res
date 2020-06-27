@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const Sequelize = require("sequelize");
-const { response } = require("express");
+
 const router = express.Router();
 const sequelize = new Sequelize("mysql://root@localhost:3307/delilahresto");
 const signsecure = "Accestoken2020";
@@ -81,6 +81,29 @@ router.post("/order", (req, res) => {
     )
     .then((response) => {
       res.status(201).json({ message: "authentication successful", response });
+    });
+});
+
+router.put("/user/information", (req, res) => {
+  const { Nick_Name, User_Name, Mail, Contact, Location, Pwd } = req.body;
+  const { User_Id } = req.query;
+  sequelize
+    .query(
+      "UPDATE userservice SET Nick_Name = ?, User_Name = ?, Mail = ?, Contact = ?, Location = ?, Pwd = ? WHERE User_Id = ? ",
+      {
+        replacements: [
+          Nick_Name,
+          User_Name,
+          Mail,
+          Contact,
+          Location,
+          Pwd,
+          User_Id,
+        ],
+      }
+    )
+    .then((response) => {
+      res.status(201).json({ message: "Information updated successfully" });
     });
 });
 
