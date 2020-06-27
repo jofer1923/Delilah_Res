@@ -382,6 +382,12 @@ paths:
         - users
       summary: Delete user's information
       parameters:
+        - in: query
+          name: User_Id
+          description: User Id
+          required: true
+          schema:
+            type: integer
         - in: header
           name: Token by user
           description: Send the verification token by user

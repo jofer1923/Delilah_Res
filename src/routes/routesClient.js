@@ -107,4 +107,8 @@ router.put("/user/information", (req, res) => {
     });
 });
 
+router.delete("/user/information", (req, res) => {
+  res.status(400).json({ message: "Incorrect credentials, please try again!" });
+});
+
 module.exports = { router, signsecure };
