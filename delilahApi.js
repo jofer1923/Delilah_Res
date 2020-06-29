@@ -2,6 +2,7 @@ const express = require("express");
 const server = express();
 
 const { router } = require("./src/routes/routesClient");
+const { Admrouter } = require("./src/routes/routesAdmin");
 const bodyParser = require("body-parser");
 const {
   badrequest,
@@ -11,6 +12,8 @@ const {
   toknverification,
   userInfo,
 } = require("./src/middlewares/middlewaresClient");
+
+const { admInfo, checkDish } = require("./src/middlewares/middlewaresAdmin");
 
 server.use(bodyParser());
 
@@ -33,3 +36,6 @@ server.post("/order", toknverification, userInfo, dishver, router);
 server.put("/user/information", toknverification, userInfo, router);
 
 server.delete("/user/information", router);
+
+/////////////////
+server.post("/admin/newDish", admInfo, checkDish, Admrouter);
