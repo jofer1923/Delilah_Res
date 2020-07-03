@@ -70,4 +70,20 @@ function checkDish(req, res, next) {
     });
 }
 
-module.exports = { admInfo, checkDish };
+function dishExt(req, res, next) {
+  const { Dish_Id } = req.query;
+  sequelize
+    .query("SELECT * FROM  dishmenu WHERE Dish_Id = ?", {
+      replacements: [Dish_Id],
+      type: sequelize.QueryTypes.SELECT,
+    })
+    .then((response) => {
+      if (response.length) {
+        return next();
+      } else {
+        return res.status(204).json({ message: "There are not disches" });
+      }
+    });
+}
+
+module.exports = { admInfo, checkDish, dishExt };
