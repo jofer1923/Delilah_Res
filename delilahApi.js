@@ -54,3 +54,5 @@ server.get("/admin/orders", admInfo, orderEmpty, Admrouter);
 server.get("/admin/order", admInfo, orderExt, Admrouter);
 
 server.put("/admin/order", admInfo, orderExt, statusOrd, Admrouter);
+
+server.put("/admin/dish", admInfo, dishExt, Admrouter);

@@ -99,6 +99,37 @@ Admrouter.put("/admin/order", (req, res) => {
       res.json({
         message:
           "Admin has been authenticated and the order status was updated successfully",
+        response,
+      });
+    });
+});
+
+Admrouter.put("/admin/dish", (req, res) => {
+  const {
+    Long_Dish_Name,
+    Short_Dish_Name,
+    Picture_Dish,
+    Price_Dish,
+  } = req.body;
+  const { Dish_Id } = req.query;
+  sequelize
+    .query(
+      "UPDATE dishmenu SET Long_Dish_Name = ?,Short_Dish_Name = ?,Picture_Dish = ?,Price_Dish = ? WHERE   Dish_Id= ? ",
+      {
+        replacements: [
+          Long_Dish_Name,
+          Short_Dish_Name,
+          Picture_Dish,
+          Price_Dish,
+          Dish_Id,
+        ],
+      }
+    )
+    .then((response) => {
+      res.json({
+        message:
+          "Admin has been authenticated and the dish was updated successfully",
+        response,
       });
     });
 });
