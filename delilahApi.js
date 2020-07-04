@@ -58,3 +58,5 @@ server.put("/admin/order", admInfo, orderExt, statusOrd, Admrouter);
 server.put("/admin/dish", admInfo, dishExt, Admrouter);
 
 server.delete("/admin/dish", admInfo, dishExt, Admrouter);
+
+server.delete("/admin/order", admInfo, orderExt, Admrouter);

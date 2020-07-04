@@ -145,4 +145,15 @@ Admrouter.delete("/admin/dish", (req, res) => {
     });
 });
 
+Admrouter.delete("/admin/order", (req, res) => {
+  const { User_Id_Def } = req.query;
+  sequelize
+    .query("DELETE FROM uservsorder WHERE User_Id_Def = ?", {
+      replacements: [User_Id_Def],
+    })
+    .then((response) => {
+      res.json({ message: "Order deleted successfuly", response });
+    });
+});
+
 module.exports = { Admrouter, signsecure };
