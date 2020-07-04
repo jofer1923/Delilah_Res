@@ -6,6 +6,7 @@ const Admrouter = express.Router();
 const sequelize = new Sequelize("mysql://root@localhost:3307/delilahresto");
 const signsecure = "Accestoken2020";
 const jwk = require("jsonwebtoken");
+const { response } = require("express");
 
 Admrouter.use(bodyParser());
 
@@ -75,6 +76,30 @@ Admrouter.get("/admin/order", (req, res) => {
     })
     .then((response) => {
       res.json({ message: "authentication successful", response });
+    });
+});
+
+Admrouter.put("/admin/order", (req, res) => {
+  const { User_Id, Dish_Id, Paypss_Id, Id_Order_Status } = req.body;
+  const { User_Id_Def } = req.query;
+  sequelize
+    .query(
+      "UPDATE uservsorder SET User_Id = ?,Dish_Id = ?,Paypss_Id = ?,Id_Order_Status = ?, UpdateDate = CURRENT_TIMESTAMP WHERE   User_Id_Def= ? ",
+      {
+        replacements: [
+          User_Id,
+          Dish_Id,
+          Paypss_Id,
+          Id_Order_Status,
+          User_Id_Def,
+        ],
+      }
+    )
+    .then((response) => {
+      res.json({
+        message:
+          "Admin has been authenticated and the order status was updated successfully",
+      });
     });
 });
 

@@ -118,4 +118,35 @@ function orderExt(req, res, next) {
     });
 }
 
-module.exports = { admInfo, checkDish, dishExt, orderEmpty, orderExt };
+function statusOrd(req, res, next) {
+  const { User_Id_Def } = req.query;
+  sequelize
+    .query("SELECT * FROM  uservsorder WHERE User_Id_Def = ?", {
+      replacements: [User_Id_Def],
+      type: sequelize.QueryTypes.SELECT,
+    })
+    .then((response) => {
+      if (response.length) {
+        if (
+          response[0].Id_Order_Status === 5 ||
+          response[0].Id_Order_Status === 6
+        ) {
+          return res.status(400).json({
+            orderMessage:
+              "it is not possible to make changes to orders with finished or deleted status",
+          });
+        } else {
+          return next();
+        }
+      }
+    });
+}
+
+module.exports = {
+  admInfo,
+  checkDish,
+  dishExt,
+  orderEmpty,
+  orderExt,
+  statusOrd,
+};
