@@ -66,4 +66,16 @@ Admrouter.get("/admin/orders", (req, res) => {
     });
 });
 
+Admrouter.get("/admin/order", (req, res) => {
+  const { User_Id_Def } = req.query;
+  sequelize
+    .query("SELECT * FROM uservsorder WHERE User_Id_Def = ?", {
+      replacements: [User_Id_Def],
+      type: sequelize.QueryTypes.SELECT,
+    })
+    .then((response) => {
+      res.json({ message: "authentication successful", response });
+    });
+});
+
 module.exports = { Admrouter, signsecure };

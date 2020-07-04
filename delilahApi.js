@@ -18,6 +18,7 @@ const {
   checkDish,
   dishExt,
   orderEmpty,
+  orderExt,
 } = require("./src/middlewares/middlewaresAdmin");
 
 server.use(bodyParser());
@@ -48,3 +49,5 @@ server.post("/admin/newDish", admInfo, checkDish, Admrouter);
 server.get("/admin/dish", admInfo, dishExt, Admrouter);
 
 server.get("/admin/orders", admInfo, orderEmpty, Admrouter);
+
+server.get("/admin/order", admInfo, orderExt, Admrouter);

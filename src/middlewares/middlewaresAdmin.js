@@ -102,4 +102,20 @@ function orderEmpty(req, res, next) {
     });
 }
 
-module.exports = { admInfo, checkDish, dishExt, orderEmpty };
+function orderExt(req, res, next) {
+  const { User_Id_Def } = req.query;
+  sequelize
+    .query("SELECT * FROM  uservsorder WHERE User_Id_Def = ?", {
+      replacements: [User_Id_Def],
+      type: sequelize.QueryTypes.SELECT,
+    })
+    .then((response) => {
+      if (response.length) {
+        return next();
+      } else {
+        return res.status(204).json({ message: "There are not orders" });
+      }
+    });
+}
+
+module.exports = { admInfo, checkDish, dishExt, orderEmpty, orderExt };
