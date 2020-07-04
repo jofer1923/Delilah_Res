@@ -43,11 +43,22 @@ Admrouter.post("/admin/newDish", (req, res) => {
     });
 });
 
-Admrouter.get("/admin/order", (req, res) => {
+Admrouter.get("/admin/dish", (req, res) => {
   const { Dish_Id } = req.query;
   sequelize
     .query("SELECT * FROM dishmenu WHERE Dish_Id = ?", {
       replacements: [Dish_Id],
+      type: sequelize.QueryTypes.SELECT,
+    })
+    .then((response) => {
+      res.json({ message: "authentication successful", response });
+    });
+});
+
+Admrouter.get("/admin/orders", (req, res) => {
+  const { Dish_Id_Def } = req.query;
+  sequelize
+    .query("SELECT * FROM uservsorder", {
       type: sequelize.QueryTypes.SELECT,
     })
     .then((response) => {

@@ -86,4 +86,20 @@ function dishExt(req, res, next) {
     });
 }
 
-module.exports = { admInfo, checkDish, dishExt };
+function orderEmpty(req, res, next) {
+  const { Dish_Id_Def } = req.query;
+  sequelize
+    .query("SELECT * FROM  dishmenu WHERE Dish_Id_Def = ?", {
+      replacements: [Dish_Id_Def],
+      type: sequelize.QueryTypes.SELECT,
+    })
+    .then((response) => {
+      if (response.length) {
+        return next();
+      } else {
+        return res.status(204).json({ message: "There are not orders" });
+      }
+    });
+}
+
+module.exports = { admInfo, checkDish, dishExt, orderEmpty };
