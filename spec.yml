@@ -690,13 +690,19 @@ paths:
         - admin
       summary: Delete order by admin
       parameters:
+        - in: query
+          name: User_Id
+          description: Admin Id
+          required: true
+          schema:
+            type: integer
         - in: header
           name: Token by user
           description: Send the verification token by admin
           required: true
           schema:
             type: string
-        - in: path
+        - in: query
           name: orderId
           description: Please enter the order id to delete
           required: true
@@ -981,13 +987,19 @@ paths:
         - admin
       summary: Delete dish by admin
       parameters:
+        - in: query
+          name: User_Id
+          description: Admin Id
+          required: true
+          schema:
+            type: integer
         - in: header
           name: Token by admin
           description: Send the verification token by admin
           required: true
           schema:
             type: string
-        - in: path
+        - in: query
           name: dishId
           description: Please enter the dish id to delete
           required: true

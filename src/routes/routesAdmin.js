@@ -134,4 +134,15 @@ Admrouter.put("/admin/dish", (req, res) => {
     });
 });
 
+Admrouter.delete("/admin/dish", (req, res) => {
+  const { Dish_Id } = req.query;
+  sequelize
+    .query("DELETE FROM dishmenu WHERE Dish_Id = ?", {
+      replacements: [Dish_Id],
+    })
+    .then((response) => {
+      res.json({ message: "Dish deleted successfuly", response });
+    });
+});
+
 module.exports = { Admrouter, signsecure };
