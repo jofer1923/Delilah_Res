@@ -4,20 +4,11 @@ Acamica's project to make a restful api with nodejs tools
 
 ---
 
-#Technologies and packages used for development
-
-- Node.js
-- Nodemon
-- Express
-- JWT
-- Sequelize
-- MySQL
-- Postman (endpoints y testing)
-- Swagger para documentación de API
-
 ### Acamica final project of a restful API for a restaurant
 
 ---
+
+- Swagger documentation: https://app.swaggerhub.com/apis/jofer1923/FERNANDOBEDOYA_DELILAHREST/1.0.0
 
 ## Project installation and initialization
 
@@ -48,3 +39,14 @@ Into the console type the next code line `npm install`
 You can now test the provided endpoints to make use of the API and database connection
 
 (Make sure the Delilah Restó enviroment is selected so you can access the enviroment variables)
+
+#Technologies and packages used for development
+
+- Node.js
+- Nodemon
+- Express
+- JWT
+- Sequelize
+- MySQL
+- Postman (endpoints y testing)
+- Swagger para documentación de API
